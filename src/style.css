@@ -27,7 +27,7 @@ h2 {
 .list {
   list-style: none;
   padding: 0;
-  height: fit-content;
+  height: min-content;
   margin: 0;
 }
 
@@ -36,7 +36,6 @@ h2 {
   height: 70px;
   font-size: 25px;
   border: 0.5px solid black;
-
 }
 
 .todo-input {
