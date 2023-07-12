@@ -1,0 +1,5 @@
+{
+  "target": "https://example.com",
+  "audits": ["performance", "accessibility", "seo"],
+  "frequency": "hourly"
+}
