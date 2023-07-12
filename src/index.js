@@ -1,20 +1,10 @@
 import './style.css';
+import { addTask, updateTaskIndexes, saveTasksToLocalStorage, loadTasksFromLocalStorage, createItem } from './modules/list.js';
 
-const tasks = [];
+// Your existing code for DOMContentLoaded event listener and other logic
 
-tasks.sort((a, b) => a.index - b.index);
+// Use the imported functions as needed in your index.js file
 
-function createItem() {
-  const list = document.getElementById('list');
-  list.innerHTML = '';
-  tasks.forEach((task) => {
-    const aTask = document.createElement('li');
-    list.appendChild(aTask);
-    aTask.textContent = task.description;
-    if (task.completed) {
-      aTask.classList.add('completed');
-    }
-  });
-}
+
 
 document.addEventListener('DOMContentLoaded', createItem);
