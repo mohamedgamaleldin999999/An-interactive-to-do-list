@@ -1,0 +1,17 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "url": ["http://localhost:3000"]
+    },
+    "assert": {
+      "assertions": {
+        "first-contentful-paint": ["warn", {"maxNumericValue": 2000}],
+        "speed-index": ["warn", {"maxNumericValue": 3000}]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
