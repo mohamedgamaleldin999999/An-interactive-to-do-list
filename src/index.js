@@ -1,22 +1,6 @@
 import './style.css';
 
-const tasks = [
-  {
-    description: 'do homework',
-    completed: true,
-    index: 0,
-  },
-  {
-    description: 'do dishes',
-    completed: true,
-    index: 2,
-  },
-  {
-    description: 'do white',
-    completed: true,
-    index: 1,
-  },
-];
+const tasks = [];
 
 tasks.sort((a, b) => a.index - b.index);
 
