@@ -2,16 +2,6 @@ let tasks = [];
 
 tasks.sort((a, b) => a.index - b.index);
 
-function deleteTask(task) {
-  const taskIndex = tasks.findIndex((item) => item === task);
-  if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
-    updateTaskIndexes();
-    saveTasksToLocalStorage();
-    createItem();
-  }
-}
-
 function makeTaskEditable(taskItem, task) {
   const inputField = document.createElement('input');
   inputField.type = 'text';
