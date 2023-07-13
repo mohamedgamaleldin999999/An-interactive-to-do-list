@@ -1,7 +1,5 @@
 let tasks = [];
 
-let editableTask = null;
-
 tasks.sort((a, b) => a.index - b.index);
 
 function deleteTask(task) {
@@ -14,7 +12,6 @@ function deleteTask(task) {
   }
 }
 
-
 function makeTaskEditable(taskItem, task) {
   const inputField = document.createElement('input');
   inputField.type = 'text';
@@ -25,7 +22,7 @@ function makeTaskEditable(taskItem, task) {
 
   const trashIcon = document.createElement('span');
   trashIcon.classList.add('trash-icon');
-  trashIcon.innerHTML = '<i class="fa-solid fa-trash"></i>'
+  trashIcon.innerHTML = '<i class="fa-solid fa-trash"></i>';
 
   taskItem.appendChild(trashIcon);
 
@@ -51,7 +48,7 @@ export function createItem() {
   tasks.forEach((task) => {
     const aTask = document.createElement('li');
     list.appendChild(aTask);
-    aTask.classList.add('list-li')
+    aTask.classList.add('list-li');
 
     aTask.addEventListener('click', function () {
       makeTaskEditable(aTask, task);
@@ -64,12 +61,11 @@ export function createItem() {
   });
 }
 
-
 export function addTask(description) {
   const newTask = {
     description: description,
     completed: false,
-    index: tasks.length
+    index: tasks.length,
   };
 
   tasks.push(newTask);
@@ -81,7 +77,7 @@ export function addTask(description) {
 const taskInput = document.getElementById('todo-input');
 const addTaskButton = document.getElementById('add-btn');
 
-addTaskButton.addEventListener('click', function() {
+addTaskButton.addEventListener('click', function add() {
   const description = taskInput.value.trim();
   if (description !== '') {
     addTask(description);
@@ -106,18 +102,15 @@ export function loadTasksFromLocalStorage() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   loadTasksFromLocalStorage();
   createItem();
 });
 
-document.addEventListener('click', function (event) {
+document.addEventListener('click', function documentClick(event) {
   const clickedElement = event.target;
-  
+
   if (clickedElement.tagName !== 'INPUT' && !clickedElement.closest('.list li')) {
-    if (editableTask) {
-      saveTaskChanges(editableTask);
-    }
     createItem();
   }
 });
