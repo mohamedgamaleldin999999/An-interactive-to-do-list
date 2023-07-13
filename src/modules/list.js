@@ -1,14 +1,34 @@
 let tasks = [];
 
+let editableTask = null;
+
 tasks.sort((a, b) => a.index - b.index);
+
+function deleteTask(task) {
+  const taskIndex = tasks.findIndex((item) => item === task);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    updateTaskIndexes();
+    saveTasksToLocalStorage();
+    createItem();
+  }
+}
+
 
 function makeTaskEditable(taskItem, task) {
   const inputField = document.createElement('input');
   inputField.type = 'text';
   inputField.value = task.description;
-  inputField.classList.add('list-li');
+  inputField.classList.add('todo-input');
   taskItem.innerHTML = '';
   taskItem.appendChild(inputField);
+
+  const trashIcon = document.createElement('span');
+  trashIcon.classList.add('trash-icon');
+  trashIcon.innerHTML = '<i class="fa-solid fa-trash"></i>'
+  // Add icon markup or class here
+
+  taskItem.appendChild(trashIcon);
 
   inputField.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
@@ -18,9 +38,13 @@ function makeTaskEditable(taskItem, task) {
     }
   });
 
+  trashIcon.addEventListener('click', function (event) {
+    event.stopPropagation();
+    deleteTask(task);
+  });
+
   inputField.focus();
 }
-
 
 export function createItem() {
   const list = document.getElementById('list');
@@ -86,4 +110,16 @@ export function loadTasksFromLocalStorage() {
 document.addEventListener('DOMContentLoaded', function() {
   loadTasksFromLocalStorage();
   createItem();
+});
+
+document.addEventListener('click', function (event) {
+  const clickedElement = event.target;
+  
+  // Check if the clicked element is not the input field or a task item
+  if (clickedElement.tagName !== 'INPUT' && !clickedElement.closest('.list li')) {
+    if (editableTask) {
+      saveTaskChanges(editableTask);
+    }
+    createItem();
+  }
 });
