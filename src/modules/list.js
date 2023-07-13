@@ -6,39 +6,10 @@ function saveTasksToLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-function onCreate() {
-  const list = document.getElementById('list');
-  list.innerHTML = '';
-  tasks.forEach((task) => {
-    const aTask = document.createElement('li');
-    list.appendChild(aTask);
-    aTask.classList.add('list-li');
-
-    aTask.addEventListener('click', () => {
-      makeTaskEditable(aTask, task);
-    });
-
-    aTask.textContent = task.description;
-    if (task.completed) {
-      aTask.classList.add('completed');
-    }
-  });
-}
-
 function updateTaskIndexes() {
   tasks.forEach((task, index) => {
     task.index = index;
   });
-}
-
-function deleteTask(task) {
-  const taskIndex = tasks.findIndex((item) => item === task);
-  if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
-    updateTaskIndexes();
-    saveTasksToLocalStorage();
-    onCreate();
-  }
 }
 
 function makeTaskEditable(taskItem, task) {
@@ -59,7 +30,7 @@ function makeTaskEditable(taskItem, task) {
     if (event.key === 'Enter') {
       task.description = inputField.value;
       saveTasksToLocalStorage();
-      onCreate();
+      createItem();
     }
   });
 
@@ -118,6 +89,16 @@ function loadTasksFromLocalStorage() {
   const storedTasks = localStorage.getItem('tasks');
   if (storedTasks) {
     tasks = JSON.parse(storedTasks);
+  }
+}
+
+function deleteTask(task) {
+  const taskIndex = tasks.findIndex((item) => item === task);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    updateTaskIndexes();
+    saveTasksToLocalStorage();
+    createItem();
   }
 }
 
