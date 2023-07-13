@@ -102,6 +102,46 @@ function loadTasksFromLocalStorage() {
   }
 }
 
+function deleteTask(task) {
+  const taskIndex = tasks.findIndex((item) => item === task);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    updateTaskIndexes();
+    saveTasksToLocalStorage();
+    createItem();
+  }
+}
+
+function makeTaskEditable(taskItem, task) {
+  const inputField = document.createElement('input');
+  inputField.type = 'text';
+  inputField.value = task.description;
+  inputField.classList.add('todo-input');
+  taskItem.innerHTML = '';
+  taskItem.appendChild(inputField);
+
+  const trashIcon = document.createElement('span');
+  trashIcon.classList.add('trash-icon');
+  trashIcon.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+  taskItem.appendChild(trashIcon);
+
+  inputField.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      task.description = inputField.value;
+      saveTasksToLocalStorage();
+      createItem();
+    }
+  });
+
+  trashIcon.addEventListener('click', (event) => {
+    event.stopPropagation();
+    deleteTask(task);
+  });
+
+  inputField.focus();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadTasksFromLocalStorage();
   createItem();
