@@ -26,7 +26,6 @@ function makeTaskEditable(taskItem, task) {
   const trashIcon = document.createElement('span');
   trashIcon.classList.add('trash-icon');
   trashIcon.innerHTML = '<i class="fa-solid fa-trash"></i>'
-  // Add icon markup or class here
 
   taskItem.appendChild(trashIcon);
 
@@ -115,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('click', function (event) {
   const clickedElement = event.target;
   
-  // Check if the clicked element is not the input field or a task item
   if (clickedElement.tagName !== 'INPUT' && !clickedElement.closest('.list li')) {
     if (editableTask) {
       saveTaskChanges(editableTask);
