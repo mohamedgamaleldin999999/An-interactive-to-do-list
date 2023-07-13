@@ -12,6 +12,35 @@ function updateTaskIndexes() {
   });
 }
 
+function deleteTask(task) {
+  const taskIndex = tasks.findIndex((item) => item === task);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    updateTaskIndexes();
+    saveTasksToLocalStorage();
+    createItem();
+  }
+}
+
+export function createItem() {
+  const list = document.getElementById('list');
+  list.innerHTML = '';
+  tasks.forEach((task) => {
+    const aTask = document.createElement('li');
+    list.appendChild(aTask);
+    aTask.classList.add('list-li');
+
+    aTask.addEventListener('click', () => {
+      makeTaskEditable(aTask, task);
+    });
+
+    aTask.textContent = task.description;
+    if (task.completed) {
+      aTask.classList.add('completed');
+    }
+  });
+}
+
 function makeTaskEditable(taskItem, task) {
   const inputField = document.createElement('input');
   inputField.type = 'text';
@@ -40,25 +69,6 @@ function makeTaskEditable(taskItem, task) {
   });
 
   inputField.focus();
-}
-
-export function createItem() {
-  const list = document.getElementById('list');
-  list.innerHTML = '';
-  tasks.forEach((task) => {
-    const aTask = document.createElement('li');
-    list.appendChild(aTask);
-    aTask.classList.add('list-li');
-
-    aTask.addEventListener('click', () => {
-      makeTaskEditable(aTask, task);
-    });
-
-    aTask.textContent = task.description;
-    if (task.completed) {
-      aTask.classList.add('completed');
-    }
-  });
 }
 
 export function addTask(description) {
