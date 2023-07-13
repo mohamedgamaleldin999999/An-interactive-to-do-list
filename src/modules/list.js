@@ -1,3 +1,5 @@
+*eslint-disable  no-use-before-define*;
+
 let tasks = [];
 
 tasks.sort((a, b) => a.index - b.index);
