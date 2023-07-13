@@ -6,7 +6,7 @@ function saveTasksToLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-function onCreate {
+function onCreate() {
   const list = document.getElementById('list');
   list.innerHTML = '';
   tasks.forEach((task) => {
