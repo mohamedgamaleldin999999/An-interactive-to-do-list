@@ -102,16 +102,6 @@ function loadTasksFromLocalStorage() {
   }
 }
 
-function deleteTask(task) {
-  const taskIndex = tasks.findIndex((item) => item === task);
-  if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
-    updateTaskIndexes();
-    saveTasksToLocalStorage();
-    createItem();
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   loadTasksFromLocalStorage();
   createItem();
