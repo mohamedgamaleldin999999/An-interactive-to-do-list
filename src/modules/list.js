@@ -12,16 +12,6 @@ function updateTaskIndexes() {
   });
 }
 
-function deleteTask(task) {
-  const taskIndex = tasks.findIndex((item) => item === task);
-  if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
-    updateTaskIndexes();
-    saveTasksToLocalStorage();
-    createItem();
-  }
-}
-
 export function createItem() {
   const list = document.getElementById('list');
   list.innerHTML = '';
@@ -39,6 +29,16 @@ export function createItem() {
       aTask.classList.add('completed');
     }
   });
+}
+
+function deleteTask(task) {
+  const taskIndex = tasks.findIndex((item) => item === task);
+  if (taskIndex !== -1) {
+    tasks.splice(taskIndex, 1);
+    updateTaskIndexes();
+    saveTasksToLocalStorage();
+    createItem();
+  }
 }
 
 function makeTaskEditable(taskItem, task) {
