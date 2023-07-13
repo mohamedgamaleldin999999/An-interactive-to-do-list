@@ -26,7 +26,7 @@ function makeTaskEditable(taskItem, task) {
 
   taskItem.appendChild(trashIcon);
 
-  inputField.addEventListener('keydown', function (event) {
+  inputField.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       task.description = inputField.value;
       saveTasksToLocalStorage();
@@ -34,7 +34,7 @@ function makeTaskEditable(taskItem, task) {
     }
   });
 
-  trashIcon.addEventListener('click', function (event) {
+  trashIcon.addEventListener('click', (event) => {
     event.stopPropagation();
     deleteTask(task);
   });
@@ -50,7 +50,7 @@ export function createItem() {
     list.appendChild(aTask);
     aTask.classList.add('list-li');
 
-    aTask.addEventListener('click', function () {
+    aTask.addEventListener('click', () => {
       makeTaskEditable(aTask, task);
     });
 
@@ -63,7 +63,7 @@ export function createItem() {
 
 export function addTask(description) {
   const newTask = {
-    description: description,
+    description,
     completed: false,
     index: tasks.length,
   };
@@ -77,7 +77,7 @@ export function addTask(description) {
 const taskInput = document.getElementById('todo-input');
 const addTaskButton = document.getElementById('add-btn');
 
-addTaskButton.addEventListener('click', function add() {
+addTaskButton.addEventListener('click', () => {
   const description = taskInput.value.trim();
   if (description !== '') {
     addTask(description);
@@ -85,29 +85,29 @@ addTaskButton.addEventListener('click', function add() {
   }
 });
 
-export function updateTaskIndexes() {
+function updateTaskIndexes() {
   tasks.forEach((task, index) => {
     task.index = index;
   });
 }
 
-export function saveTasksToLocalStorage() {
+function saveTasksToLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-export function loadTasksFromLocalStorage() {
+function loadTasksFromLocalStorage() {
   const storedTasks = localStorage.getItem('tasks');
   if (storedTasks) {
     tasks = JSON.parse(storedTasks);
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   loadTasksFromLocalStorage();
   createItem();
 });
 
-document.addEventListener('click', function documentClick(event) {
+document.addEventListener('click', (event) => {
   const clickedElement = event.target;
 
   if (clickedElement.tagName !== 'INPUT' && !clickedElement.closest('.list li')) {
