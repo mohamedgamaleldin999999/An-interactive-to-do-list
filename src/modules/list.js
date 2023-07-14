@@ -1,14 +1,14 @@
 /* eslint-disable  no-use-before-define */
 
-let tasks = [];
+export let tasks = [];
 
 tasks.sort((a, b) => a.index - b.index);
 
-function saveTasksToLocalStorage() {
+export function saveTasksToLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-function updateTaskIndexes() {
+export function updateTaskIndexes() {
   tasks.forEach((task, index) => {
     task.index = index;
   });
@@ -30,8 +30,8 @@ export function createItem() {
     div.appendChild(checkbox);
     checkbox.classList.add('checkbox');
     checkbox.setAttribute('type', 'checkbox')
-    checkbox.setAttribute('id', 'task-' + task.id);
-
+    checkbox.id = `task-${task.index}`;
+    
     aTask.addEventListener('click', () => {
       makeTaskEditable(aTask, task);
     });
@@ -107,7 +107,7 @@ addTaskButton.addEventListener('click', () => {
   }
 });
 
-function loadTasksFromLocalStorage() {
+export function loadTasksFromLocalStorage() {
   const storedTasks = localStorage.getItem('tasks');
   if (storedTasks) {
     tasks = JSON.parse(storedTasks);
