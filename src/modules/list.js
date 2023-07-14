@@ -18,9 +18,19 @@ export function createItem() {
   const list = document.getElementById('list');
   list.innerHTML = '';
   tasks.forEach((task) => {
+    const div = document.createElement('div');
+    list.appendChild(div);
+    div.classList.add('div')
+
     const aTask = document.createElement('li');
-    list.appendChild(aTask);
+    div.appendChild(aTask);
     aTask.classList.add('list-li');
+    
+    const checkbox = document.createElement('input');
+    div.appendChild(checkbox);
+    checkbox.classList.add('checkbox');
+    checkbox.setAttribute('type', 'checkbox')
+    checkbox.setAttribute('id', 'task-' + task.id);
 
     aTask.addEventListener('click', () => {
       makeTaskEditable(aTask, task);
