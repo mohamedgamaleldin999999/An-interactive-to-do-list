@@ -122,7 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('click', (event) => {
   const clickedElement = event.target;
 
-  if (clickedElement.tagName !== 'INPUT' && !clickedElement.closest('.list li')) {
+  // Check if the clicked element or its ancestor has the 'refresh-tasks' class
+  if (clickedElement.classList.contains('refresh-tasks') || clickedElement.closest('.refresh-tasks')) {
     createItem();
   }
 });
