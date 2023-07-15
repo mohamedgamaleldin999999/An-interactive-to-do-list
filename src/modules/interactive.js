@@ -1,13 +1,13 @@
 import List from './list.js';
 
-export function addCheckboxListener() {
+export default function addCheckboxListener() {
   const todoList = new List();
 
   const listSection = document.querySelector('#list-items');
   listSection.addEventListener('change', (event) => {
     if (
-      (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') ||
-      event.target.tagName === 'LABEL'
+      (event.target.tagName === 'INPUT' && event.target.type === 'checkbox')
+      || event.target.tagName === 'LABEL'
     ) {
       const taskItem = event.target.closest('.list-item');
       const taskId = parseInt(taskItem.dataset.taskId, 10);
