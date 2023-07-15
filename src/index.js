@@ -1,6 +1,19 @@
 import './style.css';
-import * as listModule from './modules/list.js';
-import * as interactive from './modules/interactive.js';
+import Task from './modules/todo-list.js';
+import { toggle, clearAll } from './modules/interactive.js';
 
-document.addEventListener('DOMContentLoaded', listModule.createItem);
-document.addEventListener('DOMContentLoaded', interactive.addCheckboxListener);
+const todoItemsList = document.querySelector('#list_navv');
+const clearAllBtn = document.querySelector('#clearAllBTN');
+const task = new Task();
+task.addTask();
+task.render();
+todoItemsList.addEventListener('click', (event) => {
+  if (event.target.type === 'checkbox') {
+    toggle(event.target.parentElement.getAttribute('data-key'), task);
+    task.render();
+  }
+});
+clearAllBtn.addEventListener('click', () => {
+  clearAll(task);
+  task.render();
+});

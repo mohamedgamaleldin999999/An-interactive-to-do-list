@@ -1,31 +1,22 @@
-import { tasks, saveTasksToLocalStorage, createItem } from './list.js';
-
-export function addCheckboxListener() {
-  const list = document.getElementById('list');
-
-  list.addEventListener('change', (event) => {
-    if (
-      (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') ||
-      event.target.tagName === 'LABEL'
-    ) {
-      const taskItem = event.target.parentNode;
-      const taskId = parseInt(taskItem.dataset.taskId, 10);
-      const task = tasks.find((item) => item.index === taskId);
-
-      if (task) {
-        task.completed = event.target.checked;
-        saveTasksToLocalStorage();
-        createItem();
-      }
-
-      // Add or remove "completed" class to the taskItem based on checkbox state
-      if (event.target.checked) {
-        taskItem.classList.add('completed');
-        saveTasksToLocalStorage();
-      } else {
-        taskItem.classList.remove('completed');
-        saveTasksToLocalStorage();
-      }
+/* eslint eqeqeq: 0 */
+// Mark as Complete Functionality
+const toggle = (index, task) => {
+  task.tasksArray.forEach((item) => {
+    item.completed = (item.index == index) ? !item.completed : item.completed;
+  });
+  task.addTask();
+};
+// Clear All Completed Functionality
+const clearAll = (task) => {
+  task.tasksArray.forEach((data) => {
+    if (data.completed === true) {
+      task.tasksArray = task.tasksArray.filter((item) => item.index !== data.index);
     }
   });
-}
+  task.tasksArray.forEach((task1, i) => {
+    task1.index = i;
+  });
+  task.addTask();
+};
+
+export { toggle, clearAll };

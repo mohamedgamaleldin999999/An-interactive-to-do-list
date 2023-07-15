@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/index.js',
   devServer: {
     static: './dist',
-    port: 8080,
+    port: 3000,
   },
   mode: 'development',
   plugins: [
