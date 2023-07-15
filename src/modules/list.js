@@ -1,129 +1,135 @@
-/* eslint-disable  no-use-before-define */
+export default class List {
+  constructor() {
+    this.list = JSON.parse(localStorage.getItem('todo-list'));
+    if (!this.list) {
+      this.list = [];
+    }
+    this.display();
+  }
 
-export let tasks = [];
-
-tasks.sort((a, b) => a.index - b.index);
-
-export function saveTasksToLocalStorage() {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-}
-
-export function updateTaskIndexes() {
-  tasks.forEach((task, index) => {
-    task.index = index;
-  });
-}
-
-export function createItem() {
-  const list = document.getElementById('list');
-  list.innerHTML = '';
-  tasks.forEach((task) => {
-    const div = document.createElement('div');
-    list.appendChild(div);
-    div.classList.add('div')
-
-    const aTask = document.createElement('li');
-    div.appendChild(aTask);
-    aTask.classList.add('list-li');
-    
-    const checkbox = document.createElement('input');
-    div.appendChild(checkbox);
-    checkbox.classList.add('checkbox');
-    checkbox.setAttribute('type', 'checkbox')
-    checkbox.id = `task-${task.index}`;
-    
-    aTask.addEventListener('click', () => {
-      makeTaskEditable(aTask, task);
+  display() {
+    this.saveData();
+    const listSection = document.querySelector('#list-items');
+    listSection.innerHTML = '';
+    this.list.forEach((activity) => {
+      let activityItem = `
+        <li class="d-flex s-between list-item" id="item-data-${activity.index}">`;
+      if (activity.completed) {
+        activityItem += `
+            <span class="material-icons done update-status" data="${activity.index}">
+              done
+            </span>
+            <p contenteditable="true" class="completed activity" data="${activity.index}">
+              ${activity.description}
+            </p>
+            `;
+      } else {
+        activityItem += `
+            <span class="material-icons  update-status"  data="${activity.index}">
+              check_box_outline_blank
+            </span>
+            <p contenteditable="true" class="activity" data="${activity.index}">
+              ${activity.description}
+            </p>`;
+      }
+      activityItem += `
+          <span class="material-icons delete-activity" data="${activity.index}">
+            delete
+          </span>
+        </li>
+      `;
+      listSection.innerHTML += activityItem;
     });
+    this.activateActions();
+  }
 
-    aTask.textContent = task.description;
-    if (task.completed) {
-      aTask.classList.add('completed');
+  addActivity(activity) {
+    if (activity || activity === 0) {
+      const newActivity = {
+        description: activity,
+        completed: false,
+        index: (this.list.length + 1),
+      };
+      this.list.push(newActivity);
+      this.display();
     }
-  });
-}
-
-function deleteTask(task) {
-  const taskIndex = tasks.findIndex((item) => item === task);
-  if (taskIndex !== -1) {
-    tasks.splice(taskIndex, 1);
-    updateTaskIndexes();
-    saveTasksToLocalStorage();
-    createItem();
   }
-}
 
-function makeTaskEditable(taskItem, task) {
-  const inputField = document.createElement('input');
-  inputField.type = 'text';
-  inputField.value = task.description;
-  inputField.classList.add('todo-input');
-  taskItem.innerHTML = '';
-  taskItem.appendChild(inputField);
-
-  const trashIcon = document.createElement('span');
-  trashIcon.classList.add('trash-icon');
-  trashIcon.innerHTML = '<i class="fa-solid fa-trash"></i>';
-
-  taskItem.appendChild(trashIcon);
-
-  inputField.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      task.description = inputField.value;
-      saveTasksToLocalStorage();
-      createItem();
+  deleteActivity(activityIndex) {
+    if (activityIndex) {
+      this.list.splice((activityIndex - 1), 1);
+      this.display();
     }
-  });
-
-  trashIcon.addEventListener('click', (event) => {
-    event.stopPropagation();
-    deleteTask(task);
-  });
-
-  inputField.focus();
-}
-
-export function addTask(description) {
-  const newTask = {
-    description,
-    completed: false,
-    index: tasks.length + 1,
-  };
-
-  tasks.push(newTask);
-  updateTaskIndexes();
-  saveTasksToLocalStorage();
-  createItem();
-}
-
-const taskInput = document.getElementById('todo-input');
-const addTaskButton = document.getElementById('add-btn');
-
-addTaskButton.addEventListener('click', () => {
-  const description = taskInput.value.trim();
-  if (description !== '') {
-    addTask(description);
-    taskInput.value = '';
   }
-});
 
-export function loadTasksFromLocalStorage() {
-  const storedTasks = localStorage.getItem('tasks');
-  if (storedTasks) {
-    tasks = JSON.parse(storedTasks);
+  updateActivityStatus(activityIndex) {
+    activityIndex -= 1;
+    if (activityIndex !== undefined) {
+      if (this.list[activityIndex].completed === true) {
+        this.list[activityIndex].completed = false;
+      } else {
+        this.list[activityIndex].completed = true;
+      }
+    }
+    this.display();
+  }
+
+  clearCompleted() {
+    this.list = this.list.filter((activity) => activity.completed === false);
+    this.display();
+  }
+
+  clearAll() {
+    this.list.splice(0);
+    this.display();
+  }
+
+  saveData() {
+    for (let i = 0; i < this.list.length; i += 1) {
+      this.list[i].index = (i + 1);
+    }
+    this.list.sort((a, b) => {
+      if (a.index < b.index) return -1;
+      if (a.index > b.index) return 1;
+      return 0;
+    });
+    localStorage.setItem('todo-list', JSON.stringify(this.list));
+  }
+
+  editActivity(index, description) {
+    this.list[index - 1].description = description;
+    this.saveData();
+  }
+
+  activateActions() {
+    // This code changes checkbox activity
+    const updateStatusBtns = document.querySelectorAll('.update-status');
+    if (updateStatusBtns !== null) {
+      updateStatusBtns.forEach((item) => {
+        item.addEventListener('click', () => {
+          this.updateActivityStatus(item.getAttribute('data'));
+        });
+      });
+    }
+    // this code is for the delete activity button
+    const deleteBtns = document.querySelectorAll('.delete-activity');
+    if (deleteBtns) {
+      deleteBtns.forEach((activity) => {
+        activity.addEventListener('click', () => {
+          this.deleteActivity(activity.getAttribute('data'));
+        });
+      });
+    }
+    // this code edits the activity handler
+    const activities = document.querySelectorAll('.activity');
+    if (activities) {
+      activities.forEach((activity) => {
+        activity.addEventListener('input', (e) => {
+          const description = e.target.innerText;
+          const index = e.target.getAttribute('data');
+          this.editActivity(index, description);
+        });
+      });
+    }
   }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadTasksFromLocalStorage();
-  createItem();
-});
-
-document.addEventListener('click', (event) => {
-  const clickedElement = event.target;
-
-  // Check if the clicked element or its ancestor has the 'refresh-tasks' class
-  if (clickedElement.classList.contains('refresh-tasks') || clickedElement.closest('.refresh-tasks')) {
-    createItem();
-  }
-});
