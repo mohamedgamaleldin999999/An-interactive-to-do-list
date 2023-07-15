@@ -13,7 +13,7 @@ export default class List {
     listSection.innerHTML = '';
     this.list.forEach((activity) => {
       let activityItem = `
-        <li class="d-flex s-between list-item" id="item-data-${activity.index}">`;
+        <li class="d-flex s-between list-item" data-task-id="${activity.index}">`;
       if (activity.completed) {
         activityItem += `
             <span class="material-icons done update-status" data="${activity.index}">
@@ -48,7 +48,7 @@ export default class List {
       const newActivity = {
         description: activity,
         completed: false,
-        index: (this.list.length + 1),
+        index: this.list.length + 1,
       };
       this.list.push(newActivity);
       this.display();
@@ -57,7 +57,7 @@ export default class List {
 
   deleteActivity(activityIndex) {
     if (activityIndex) {
-      this.list.splice((activityIndex - 1), 1);
+      this.list.splice(activityIndex - 1, 1);
       this.display();
     }
   }
@@ -80,19 +80,15 @@ export default class List {
   }
 
   clearAll() {
-    this.list.splice(0);
+    this.list = [];
     this.display();
   }
 
   saveData() {
-    for (let i = 0; i < this.list.length; i += 1) {
-      this.list[i].index = (i + 1);
-    }
-    this.list.sort((a, b) => {
-      if (a.index < b.index) return -1;
-      if (a.index > b.index) return 1;
-      return 0;
+    this.list.forEach((activity, index) => {
+      activity.index = index + 1;
     });
+    this.list.sort((a, b) => a.index - b.index);
     localStorage.setItem('todo-list', JSON.stringify(this.list));
   }
 
