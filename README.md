@@ -41,7 +41,7 @@ Visual Studio Code using HTML, Css, and Javascript Languages
 
 <details>
 
-  <summary>Hello Microverse</summary>
+  <summary>to do list</summary>
   <ul>
     <li><a href="https://html.com/">HTML</a></li>
     <li><a href="https://css.com/">CSS</a><li>

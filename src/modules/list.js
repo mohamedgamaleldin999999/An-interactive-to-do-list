@@ -1,9 +1,6 @@
 export default class List {
   constructor() {
-    this.list = JSON.parse(localStorage.getItem('todo-list'));
-    if (!this.list) {
-      this.list = [];
-    }
+    this.list = JSON.parse(localStorage.getItem('todo-list')) || [];
     this.display();
   }
 
