@@ -4,7 +4,7 @@
   <img src="my website.jpg" alt="logo" width="140"  height="auto" />
   <br/>
 
-  <h3><b>To do list</b></h3>
+  <h3><b>interactive To do list</b></h3>
 
 </div>
 
