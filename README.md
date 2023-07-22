@@ -93,7 +93,7 @@ npm install
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🔭 Future Features <a name="future-features"></a>
-[Feature1] :Add Javascript
+[Feature1] :Add Javascript for full functionality.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
