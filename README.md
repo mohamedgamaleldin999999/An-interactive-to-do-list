@@ -28,7 +28,7 @@
 - [📝 License](#license)
 
 
-# 📖 Interactive-to-do-list <a name="about-project"></a>
+# 📖 Interactive-to-do-list <a name="about-the-project"></a>
 
 
 
